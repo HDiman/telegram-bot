@@ -15,9 +15,11 @@ def get_data():
 def telegram_bot(token):
     bot = telebot.TeleBot(token)
 
-    @bot.message_handler(commands=["Start"])
+    @bot.message_handler(commands=['start'])
     def start_message(message):
         bot.send_message(message.chat.id, "Hello friend! Write the 'price' to find out the sell price of BTC")
+
+    bot.polling()
 
 
 if __name__ == "__main__":
