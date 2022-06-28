@@ -2,6 +2,7 @@ import requests
 import telebot
 from auth_data import token, key
 import time
+from telebot import types
 
 
 def get_data():
@@ -29,9 +30,21 @@ def get_data():
 def telegram_bot(token):
     bot = telebot.TeleBot(token)
 
+
     @bot.message_handler(commands=['start'])
     def start_message(message):
-        bot.send_message(message.chat.id, "Have a good day!")
+        markup = types.InlineKeyboardMarkup()
+        markup.add(types.InlineKeyboardButton("Yandex", url="https://yabdex.ru"))
+        bot.send_message(message.chat.id, "Visit site", reply_markup=markup)
+
+    @bot.message_handler(commands=['help'])
+    def start_message(message):
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+        website = types.KeyboardButton("Website")
+        start = types.KeyboardButton("Start")
+        markup.add(website, start)
+        bot.send_message(message.chat.id, "Help is made", reply_markup=markup)
+
 
     @bot.message_handler(content_types=['text'])
     def send_text(message):
